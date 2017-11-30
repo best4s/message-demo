@@ -27,11 +27,11 @@
     <!-- 日志输出到文件-滚动，多个文件 -->
     <appender name="file"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${user.dir}/logs/push-server.log</File>
+        <File>logs/push-server.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${user.dir}/logs/message-push-server.%d.log.zip</FileNamePattern>
             <!-- keep 1 days worth of history -->
-            <MaxHistory>1</MaxHistory>
+            <MaxHistory>7</MaxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%d{yyyy-MM-dd HH:mm:ss}-[%-5level]-[%thread]-%logger{36}-%msg%n</Pattern>
@@ -47,17 +47,17 @@
     </logger>
 
     <!-- additivity true 信息向上级传递，logger本身打印一次 -->
-    <logger name="com.big.daynew.application" level="INFO" additivity="true">
-        <appender-ref ref="file"/>
-    </logger>
+    <!--<logger name="com.big.daynew.application" level="INFO" additivity="true">-->
+        <!--<appender-ref ref="file"/>-->
+    <!--</logger>-->
 
     <logger name="com.mangofactory.swagger" level="ERROR"/>
     <logger name="org.springframework" level="ERROR"/>
-    <logger name="druid.sql" level="ERROR"/>
     <logger name="druid.sql" level="ERROR"/>
 
     <!-- 日志级别 -->
     <root level="debug">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="file"/>
     </root>
 </configuration> 
