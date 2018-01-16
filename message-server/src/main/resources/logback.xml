@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!-- scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。 scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 
+<!-- scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。 scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
 	debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="true">
     <!-- 定义属性，可以使“${}”来使用变量 -->
-    <property name="APP_Name" value="myAppName"/>
+    <property name="APP_Name" value="push-server"/>
 
     <!-- 获取时间戳字符串 -->
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
@@ -15,49 +15,42 @@
 
     <!-- ch.qos.logback.core.ConsoleAppender 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- <filter class="ch.qos.logback.core.filter.EvaluatorFilter"> <evaluator>
-            <expression>logger.contains("Swagger")</expression> </evaluator> <OnMismatch>NEUTRAL</OnMismatch>
-            <OnMatch>DENY</OnMatch> </filter> -->
         <encoder>
-            <pattern>[%d{yyyy/MM/dd/HH:mm:ss.SSS}]-[%-5level]-[%thread]-%logger{36}-%msg%n
-            </pattern>
+            <pattern>[%d{yyyy/MM/dd/HH:mm:ss.SSS}]-[%-5level]-[%thread]-%logger{36}-%msg%n</pattern>
         </encoder>
     </appender>
 
     <!-- 日志输出到文件-滚动，多个文件 -->
-    <appender name="file"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>logs/push-server.log</File>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/${APP_Name}.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${user.dir}/logs/message-push-server.%d.log.zip</FileNamePattern>
-            <!-- keep 1 days worth of history -->
-            <MaxHistory>7</MaxHistory>
+            <FileNamePattern>logs/${APP_Name}-%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%d{yyyy-MM-dd HH:mm:ss}-[%-5level]-[%thread]-%logger{36}-%msg%n</Pattern>
         </layout>
     </appender>
 
-    <logger name="org.apache.ibatis" level="INFO">
+    <!--<logger name="org.apache.ibatis" level="INFO">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="file"/>
     </logger>
 
     <logger name="java.sql" level="debug">
         <appender-ref ref="STDOUT"/>
-    </logger>
-
-    <!-- additivity true 信息向上级传递，logger本身打印一次 -->
-    <!--<logger name="com.big.daynew.application" level="INFO" additivity="true">-->
-        <!--<appender-ref ref="file"/>-->
-    <!--</logger>-->
+        <appender-ref ref="file"/>
+    </logger-->>
 
     <logger name="com.mangofactory.swagger" level="ERROR"/>
     <logger name="org.springframework" level="ERROR"/>
-    <logger name="druid.sql" level="ERROR"/>
 
     <!-- 日志级别 -->
     <root level="debug">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="file"/>
     </root>
-</configuration> 
+</configuration>

@@ -11,4 +11,11 @@ public class Constant {
     public static int PORT = 7007;
 
     public static int DISCONNECT_TIME = 5 * 3;
+
+    public static final int READTIMEOUT = 8;
+    public static final int WRITETIMEOUT = 9;
+    public static final int ALLTIMEOUT = 15;
+
+    public static final String DOWNLINE = "http://47.95.195.29:33060/user/setteacheronlinestatus";
+
 }

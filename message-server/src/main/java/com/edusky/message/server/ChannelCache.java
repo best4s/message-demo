@@ -24,15 +24,16 @@ public class ChannelCache {
     }
 
     private static void closeChannel(Channel channel) {
-        if (Objs.nonEmpty(channel))
+        if (Objs.nonEmpty(channel)) {
             channel.close();
+        }
     }
 
     private static void closeChannel(MsgIdentity identity) {
         closeChannel(map.get(getKey(identity)));
     }
 
-    private static String getKey(Channel channel) {
+    public static String getKey(Channel channel) {
         return map.entrySet()
                 .stream()
                 .filter(entry -> entry.getValue() == channel)

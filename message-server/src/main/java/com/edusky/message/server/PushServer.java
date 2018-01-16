@@ -40,7 +40,7 @@ class PushServer {
                             ch.pipeline()
                                     .addLast("decoder", new PushMessageDecoder())
                                     .addLast("encoder", new PushMessageEncoder())
-                                    .addLast("readTimeoutHandler", new ReadTimeoutHandler(50))
+                                    .addLast("readTimeoutHandler", new ReadTimeoutHandler(Constant.READTIMEOUT))
                                     .addLast("loginAuthResHandler", new LoginAuthResHandler())
                                     .addLast("heartbeatResHandler", new HeartbeatResHandler())
                                     .addLast("commandHandler", new PushCommandHandler());
