@@ -51,7 +51,7 @@ public class HeartbeatResHandler extends SimpleChannelInboundHandler<PushMessage
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable caught) {
-        log.error("异常: {}, {}", caught.getClass(), caught.getMessage());
+        log.error("异常: {}, {}, {}", caught.getClass(), caught.getMessage(),ctx.channel().remoteAddress());
         ctx.fireExceptionCaught(caught);
     }
 
